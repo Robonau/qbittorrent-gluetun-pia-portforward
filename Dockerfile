@@ -1,4 +1,4 @@
-FROM rust:1.80
+FROM rust:1.80.1-slim-bullseye
 
 WORKDIR /usr/src/app
 COPY . .
