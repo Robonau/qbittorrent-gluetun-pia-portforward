@@ -116,6 +116,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          tags: |
+            type=raw,${{ needs.GenTag.outputs.value }}
+            type=raw,latest
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
