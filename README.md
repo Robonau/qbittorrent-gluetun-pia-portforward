@@ -46,7 +46,7 @@ services:
     depends_on:
       - gluetun
   qbittorrent-gluetun-PIA-port-forward:
-    image: ghcr.io/qbittorrent-gluetun-pia-portforward:latest
+    image: ghcr.io/robonau/qbittorrent-gluetun-pia-portforward:latest
     environment:
       - QBITTORRENT_URL=http://gluetun:8080
       - QBITTORRENT_USERNAME=username
