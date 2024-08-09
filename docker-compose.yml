@@ -3,7 +3,8 @@ services:
     image: qbittorrent-gluetun-pia-portforward:latest
     build: .
     environment:
-      - forwarded_port_dir=${forwarded_port_dir}
-      - qbittorrent_url=${qbittorrent_url}
-      - qbittorrent_username=${qbittorrent_username}
-      - qbittorrent_password=${qbittorrent_password}
+      - QBITTORRENT_URL=${QBITTORRENT_URL}
+      - QBITTORRENT_USERNAME=${QBITTORRENT_USERNAME}
+      - QBITTORRENT_PASSWORD=${QBITTORRENT_PASSWORD}
+    volumes:
+      - ./forwarded_port:/forwarded_port:ro

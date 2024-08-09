@@ -28,6 +28,7 @@ async fn main() {
         .build()
         .unwrap();
     loop {
+        println!("{}", forwarded_port_dir);
         let Ok(port) = read_to_string(&forwarded_port_dir) else {
             panic!("failed to read forwarded_port_dir");
         };
