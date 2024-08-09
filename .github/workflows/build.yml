@@ -12,18 +12,6 @@ env:
   REGISTRY_IMAGE: ghcr.io/robonau/qbittorrent-gluetun-pia-portforward
 
 jobs:
-  RepoName:
-    runs-on: ubuntu-latest
-    outputs:
-      value: ${{ steps.RepoName.outputs.lowercase }}
-    steps:
-      - name: Get Repo Name
-        id: RepoName
-        uses: ASzc/change-string-case-action@v6
-        with:
-          string: ${{ github.repository_owner }}/${{ github.event.repository.name }}
-      - name: Set Repo Name
-        run: echo "REPO_NAME=${{ steps.RepoName.outputs.lowercase }}" >> $GITHUB_OUTPUT
   GenTag:
     outputs:
       value: ${{steps.GenTagName.outputs.value}}
@@ -41,7 +29,6 @@ jobs:
   build:
     needs:
       - GenTag
-      - RepoName
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -102,6 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
+      - GenTag
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
