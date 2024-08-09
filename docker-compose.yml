@@ -1,0 +1,9 @@
+services:
+  qbittorrent-gluetun-PIA-portforward:
+    image: qbittorrent-gluetun-pia-portforward:latest
+    build: .
+    environment:
+      - forwarded_port_dir=${forwarded_port_dir}
+      - qbittorrent_url=${qbittorrent_url}
+      - qbittorrent_username=${qbittorrent_username}
+      - qbittorrent_password=${qbittorrent_password}
