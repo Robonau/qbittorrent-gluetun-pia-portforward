@@ -1,7 +1,10 @@
 use dotenv::dotenv;
 extern crate reqwest;
 use reqwest::header;
-use std::{env, fs::read_to_string};
+use std::{
+    env,
+    fs::{read_dir, read_to_string},
+};
 use tokio::time::{sleep, Duration};
 use url::Url;
 
@@ -19,8 +22,8 @@ async fn main() {
     };
     let forwarded_port = env::var("FORWARDED_PORT_DIR");
     let forwarded_port_dir: String = match forwarded_port {
-        Ok(dir) => dir,
-        Err(_) => "/forwarded_port".to_string(),
+        Ok(dir) => dir + "/forwarded_port",
+        Err(_) => "/pia/forwarded_port".to_string(),
     };
     let client: reqwest::Client = reqwest::Client::builder()
         .redirect(reqwest::redirect::Policy::none())
@@ -28,11 +31,15 @@ async fn main() {
         .build()
         .unwrap();
     loop {
+        if let Ok(tmp) = read_dir(&forwarded_port_dir.replace("/forwarded_port", "")) {
+            tmp.for_each(|x| println!("read_dir {:?}", x.unwrap().path()));
+        }
         println!("{}", forwarded_port_dir);
         let Ok(port) = read_to_string(&forwarded_port_dir) else {
+            println!("{}", forwarded_port_dir);
             panic!("failed to read forwarded_port_dir");
         };
-        println!("{}", port);
+        println!("{}", port.trim());
         let Some(logged_in) = login(
             &client,
             &qbittorrent_url,

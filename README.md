@@ -23,7 +23,7 @@ Getting VPN port forwarding set up when using containers can be a pain since the
 ## Usage
 
 1. gluetun should create a file called forwarded_port.
-2. that file should be passed to the PIA-port-forward container.
+2. that file should be passed to the PIA-port-forward container in a folder called pia.
 the container will exit if the environment variables are incorrect or if it cant access qbittorrent's api.
 
 ```yaml
@@ -52,7 +52,7 @@ services:
       - QBITTORRENT_USERNAME=username
       - QBITTORRENT_PASSWORD=password
     volumes:
-      - ./gluetun/forwarded_port:/forwarded_port:ro
+      - ./gluetun:/pia:ro
     depends_on:
       - gluetun
       - qbittorrent
