@@ -53,6 +53,7 @@ async fn main() {
             println!("{}", forwarded_port_dir);
             panic!("failed to read forwarded_port_dir");
         };
+
         println!("{}", port.trim());
 
         if api_key.is_none() {
@@ -108,19 +109,16 @@ async fn login(
 
     let mut headers = header::HeaderMap::new();
     headers.insert("Referer", qbittorrent_url.parse().unwrap());
-    headers.insert(
-        "Content-Type",
-        "application/x-www-form-urlencoded".parse().unwrap(),
-    );
+
     println!("{}", url);
 
     client
         .post(url)
         .headers(headers)
-        .body(format!(
-            "username={}&password={}",
-            qbittorrent_username, qbittorrent_password
-        ))
+        .form(&[
+            ("username", qbittorrent_username),
+            ("password", qbittorrent_password),
+        ])
         .send()
         .await
         .ok()?
@@ -173,10 +171,6 @@ async fn set_listen_port(
 ) -> Option<String> {
     let mut headers = header::HeaderMap::new();
     headers.insert("Referer", qbittorrent_url.parse().unwrap());
-    headers.insert(
-        "Content-Type",
-        "application/x-www-form-urlencoded".parse().unwrap(),
-    );
 
     if let Some(api_key) = api_key {
         headers.insert(
@@ -193,7 +187,7 @@ async fn set_listen_port(
     client
         .post(url)
         .headers(headers)
-        .body(format!("json={{\"listen_port\": {}}}", listen_port))
+        .form(&[("json", format!("{{\"listen_port\": {}}}", listen_port))])
         .send()
         .await
         .ok()?
