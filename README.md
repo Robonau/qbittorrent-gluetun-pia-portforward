@@ -49,8 +49,9 @@ services:
     image: ghcr.io/robonau/qbittorrent-gluetun-pia-portforward:latest
     environment:
       - QBITTORRENT_URL=http://gluetun:8080
-      - QBITTORRENT_USERNAME=username
-      - QBITTORRENT_PASSWORD=password
+      - QBITTORRENT_API_KEY=qbt_1234
+      # - QBITTORRENT_USERNAME=username
+      # - QBITTORRENT_PASSWORD=password
     volumes:
       - ./gluetun:/pia:ro
     depends_on:
